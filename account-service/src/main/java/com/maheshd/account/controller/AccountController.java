@@ -20,7 +20,9 @@ import com.maheshd.account.entity.AccountEntity;
 import com.maheshd.account.repo.AccountRepository;
 import com.maheshd.account.service.client.CardFeignClient;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 
 @RestController
@@ -35,7 +37,9 @@ public class AccountController {
 
 	@GetMapping(value = "/{userId}")
 	@CircuitBreaker(name = "circuitBreakerGetAccountsByUserId", fallbackMethod = "getAccountsByUserIdFallback")
-	//@Retry(name = "retryGetCardDetails")
+	//@Retry(name = "retryGetAccountsByUserId", fallbackMethod = "getAccountsByUserIdFallback")
+	//@RateLimiter(name = "rateLimiterGetAccountsByUserId", fallbackMethod = "getAccountsByUserIdFallback")
+	//@Bulkhead(name = "bulkHeadGetAccountsByUserId", fallbackMethod = "getAccountsByUserIdFallback")
 	public List<AccountDTO> getAccountsByUserId(@PathVariable("userId") Long userId) {
 		List<AccountEntity> accounts = accountRepository.findByUserId(userId);
 		List<AccountDTO> responseAccountDtos = new ArrayList<>();
