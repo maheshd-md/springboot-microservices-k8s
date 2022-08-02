@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: user-service
+  name: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - image: maheshd4077/springboot-microservices-k8s:user-service-V1.0
+        name: springboot-microservices-k8s
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: user-service
+  name: user-service
+spec:
+  ports:
+  - name: "8081"
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: user-service
+  type: ClusterIP
+status:
+  loadBalancer: {}

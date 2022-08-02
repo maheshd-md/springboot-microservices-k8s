@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: config-server
+  name: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: config-server
+    spec:
+      containers:
+      - image: maheshd4077/springboot-microservices-k8s:config-server-V1.0
+        name: springboot-microservices-k8s
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: config-server
+  name: config-server
+spec:
+  ports:
+  - name: "8071"
+    port: 8071
+    protocol: TCP
+    targetPort: 8071
+  selector:
+    app: config-server
+  type: ClusterIP
+status:
+  loadBalancer: {}
